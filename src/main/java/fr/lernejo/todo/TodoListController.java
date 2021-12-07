@@ -7,16 +7,20 @@ import java.util.ArrayList;
 @RestController
 public class TodoListController {
 
-    ArrayList array = new ArrayList();
+    //ArrayList array = new ArrayList();
+    TodoRepository todoRepository;
+
+    public TodoListController(TodoRepository todoRepository){
+        this.todoRepository = todoRepository;
+    }
 
     @PostMapping("/api/todo")
-    public void add(@RequestParam("message") String message,@RequestParam("author") String author ) {
-        Todo todo = new Todo(message,author);
-        array.add(todo);
+    public void add(@RequestBody TodoEntity TodoRep){
+        todoRepository.save(TodoRep);
     }
 
     @GetMapping("/api/todo")
     public Iterable get() {
-        return array;
+        return todoRepository.findAll();
     }
 }
